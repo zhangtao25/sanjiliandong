@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<select id="selS">
+    <option value="">请选择</option>
+</select>
+<select id="selC">
+    <option value="">请选择</option>
+</select>
+<select id="selX">
+    <option value="">请选择</option>
+</select>
+</body>
+<script src="./data.js"></script>
+<script>
+    function threeLevelLinkage({a,b,c,data}){
+        let oA=document.getElementById(a);
+        let oB=document.getElementById(b);
+        let oC=document.getElementById(c);
+
+        for (item in data){
+            oA.innerHTML=oA.innerHTML+`<option value="">`+data[item].name+`</option>`;
+            // 第一级遍历添加
+        }
+        oA.onchange=function () {
+            var index0=oA.selectedIndex;
+            // 获取点击的options的值，用作json里的key
+            oB.innerHTML=`<option value="">`+'请选择'+`</option>`;
+            // 每次点击重置sel内的options
+            if(index0!=0){
+                for (item0 in data[index0-1].city){
+                    oB.innerHTML=oB.innerHTML+`<option value="">`+data[index0-1].city[item0].name+`</option>`;
+                    //第二级遍历添加
+                }
+            }
+            oB.onchange=function () {
+                var index1=oB.selectedIndex;
+                // 获取点击的options的值，用作json里的key
+                oC.innerHTML=`<option value="">`+'请选择'+`</option>`;
+                if(index1!=0){
+                    //第三级遍历添加
+                    for (item1 in data[index0-1].city[index1-1].area){
+                        oC.innerHTML=oC.innerHTML+`<option value="">`+data[index0-1].city[index1-1].area[item1]+`</option>`;
+                    }
+                }
+            }
+        }
+    }
+    threeLevelLinkage({
+        a:'selS',
+        b:'selC',
+        c:'selX',
+        data:sj
+    })
+</script>
+</html>
